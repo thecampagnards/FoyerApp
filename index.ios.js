@@ -1,7 +1,5 @@
 "use strict";
 
-//https://www.raywenderlich.com/99473/introducing-react-native-building-apps-javascript
-
 import React, {
   AppRegistry,
   Component,
