@@ -6,4 +6,4 @@ En suivant <a href="https://www.raywenderlich.com/99473/introducing-react-native
 
 ## Utilisation
 
-Lancer avec la commande ```react-native run-ios```
+Lancer avec la commande ```react-native run-ios``

@@ -2,45 +2,70 @@
 
 import React, {
   AppRegistry,
+  TabBarIOS,
   Component,
   StyleSheet,
-  Text,
-  View
+  NavigatorIOS
 } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
-var SearchPage = require('./components/SearchPage');
-
-
-class HelloWorld extends Component {
-  render() {
-    return React.createElement(React.Text, {style: styles.text}, "Hello World!");
-  }
-}
+import Products from './views/Products';
+import Home from './views/Home';
 
 class FoyerApp extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      selectedTab: 'home'
+    };
+  }
+
   render() {
     return (
-      <React.NavigatorIOS
-        style={styles.container}
-        initialRoute={{
-          title: 'Property Finder',
-          component: SearchPage,
-        }}/>
-    );
+
+      <TabBarIOS selectedTab={this.state.selectedTab}>
+        <Icon.TabBarItemIOS
+        selected={this.state.selectedTab === 'home'}
+        iconName='home'
+        title='Accueil'
+        onPress={() => {
+          this.setState({
+            selectedTab: 'home',
+          });
+        }}>
+          <NavigatorIOS
+            style={{
+              flex:1
+            }}
+            initialRoute={{
+              title : 'Accueil',
+              component: Home
+            }}
+          />
+        </Icon.TabBarItemIOS>
+        <Icon.TabBarItemIOS
+        selected={this.state.selectedTab === 'products'}
+        iconName='cutlery'
+        title='Produits'
+        onPress={() => {
+          this.setState({
+            selectedTab: 'products',
+          });
+        }}>
+          <NavigatorIOS
+            style={{
+              flex:1
+            }}
+            initialRoute={{
+              title : 'Produits',
+              component: Products
+            }}
+          />
+        </Icon.TabBarItemIOS>
+      </TabBarIOS>
+      );
   }
 }
-
-const styles = StyleSheet.create({
-  text: {
-    color: 'black',
-    backgroundColor: 'white',
-    fontSize: 30,
-    marginTop: 80,
-    textAlign: 'center'
-  },
-  container: {
-    flex: 1
-  }
-});
 
 AppRegistry.registerComponent('FoyerApp', () => FoyerApp);
