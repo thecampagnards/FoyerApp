@@ -12,4 +12,4 @@ Lancer avec la commande ```rnpm link``` pour linker les dépendances.
 
 ## Utilisation
 
-Lancer avec la commande ```react-native run-ios``
+Lancer avec la commande ```react-native run-ios``` pour tester l'application dans un emulateur.
