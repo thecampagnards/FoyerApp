@@ -74,6 +74,7 @@ class Products extends Component {
     //pour le spinner de chargement
     this.state = {
       isLoading: true,
+      showsCancelButton: false,
       products: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       })
@@ -117,17 +118,17 @@ class Products extends Component {
   renderRow(rowData) {
     //affichage de la ligne de la liste
     return (
-      <TouchableHighlight onPress={() => this.rowPressed(rowData)} underlayColor='#dddddd'>
+      <TouchableHighlight onPress={() => this.rowPressed(rowData)} underlayColor="#dddddd">
         <View>
           <View style={styles.rowContainer}>
-            <Image style={styles.thumb} source={{ uri: Environment.BASE_URL+'files/product/'+rowData.image }} />
-            <View  style={styles.textContainer}>
+            <Image style={styles.thumb} source={{ uri: Environment.BASE_URL+"files/product/"+rowData.image }} />
+            <View style={styles.textContainer}>
               <Text style={styles.price}>{rowData.price}€</Text>
               <Text style={styles.title} numberOfLines={1}>{rowData.name}</Text>
-              <HtmlRender style={styles.description} numberOfLines={1} value={rowData.description}/>
+              <HtmlRender style={styles.description} numberOfLines={1} value={rowData.description} />
             </View>
           </View>
-          <View style={styles.separator}/>
+          <View style={styles.separator} />
         </View>
       </TouchableHighlight>
     );
@@ -139,9 +140,13 @@ class Products extends Component {
       return (
         <View style={styles.container}>
           <SearchBar
-            ref='searchBar'
-            placeholder='Rechercher'
+            ref="searchBar"
+            placeholder="Rechercher"
             onChangeText={this.reloadProducts()}
+            onSearchButtonPress={() => this.refs.searchBar.blur()}
+            onFocus={() => this.setState({showsCancelButton: true})}
+            showsCancelButton={this.state.showsCancelButton}
+            onCancelButtonPress={() => this.setState({showsCancelButton: false})}
             style={styles.searchBar}
           />
           <ControlledRefreshableListView
@@ -161,8 +166,8 @@ class Products extends Component {
         <View style={styles.container}>
           <ActivityIndicatorIOS
           style={styles.loading}
-          hidden='true'
-          size='large'/>
+          hidden="true"
+          size="large"/>
         </View>
       );
     }
