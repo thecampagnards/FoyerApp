@@ -1,5 +1,6 @@
 "use strict";
 
+//import des librairies
 import React, {
   StyleSheet,
   View,
@@ -10,9 +11,13 @@ import React, {
   ActivityIndicatorIOS
 } from 'react-native';
 
-var width = Dimensions.get('window').width;
+//import du fichier de configuration
+import Environment from '../environment.js';
 
-var styles = StyleSheet.create({
+//récupération de la largeur de la fenètre
+let width = Dimensions.get('window').width;
+//déclaration des styles
+let styles = StyleSheet.create({
   description: {
     marginTop: 10,
     fontSize: 20,
@@ -43,6 +48,8 @@ class Home extends Component {
 
   constructor(props) {
     super(props);
+    //déclaration du boolean de chargement
+    //et de l'url de la banniere
     this.state = {
       isLoading: true,
       banner: null
@@ -53,16 +60,18 @@ class Home extends Component {
     this.fetchBanner();
   }
 
+  //requetage sur l'api pour récupérer 
+  //le nom du fichier
   fetchBanner() {
-    fetch("http://isenclub.fr/foyer/api/banniere/", {
+    fetch(Environment.BASE_URL+"banniere/", {
       headers: {
-        Authorization: "Basic cm9vdDpzM2N1cml0Mw=="
+        Authorization: Environment.API_KEY
       }
     })
     .then((response) => response.json())
     .then((responseData) => {
       this.setState({
-        banner: 'http://isenclub.fr/foyer/api/files/mobile/'+responseData.url,
+        banner: Environment.BASE_URL+'files/mobile/'+responseData.url,
         isLoading: false
       });
     })
@@ -70,26 +79,31 @@ class Home extends Component {
   }
 
   render() {
-
-    var spinner = this.state.isLoading ?
-    ( <ActivityIndicatorIOS
-        style={styles.loading}
-        hidden='true'
-        size='large'/> ) :
-    ( <View/>);
-
-    return (
-      <View style={styles.container}>
-        {spinner}
-        <Image style={styles.image} source={{uri: this.state.banner}} />
-        <Text style={styles.login}>
-          Bienvenue ksidor18,
-        </Text>
-        <Text style={styles.description}>
-          Vous pouvez effectuer vos commandes au Foyer via cette application !
-        </Text>
-      </View>
-    );
+    //si la requete à l'api est faite
+    if(!this.state.isLoading){
+      return (
+        <View style={styles.container}>
+          <Image style={styles.image} source={{uri: this.state.banner}} />
+          <Text style={styles.login}>
+            Bienvenue ksidor18,
+          </Text>
+          <Text style={styles.description}>
+            Vous pouvez effectuer vos commandes au Foyer via cette application !
+          </Text>
+        </View>
+      );
+    }
+    //sinon on affiche le spinner
+    else{
+      return (
+        <View style={styles.container}>
+          <ActivityIndicatorIOS
+          style={styles.loading}
+          hidden='true'
+          size='large'/>
+        </View>
+      );
+    }
   }
 }
 

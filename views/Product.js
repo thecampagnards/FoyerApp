@@ -1,5 +1,6 @@
 "use strict";
 
+//import des librairies
 import React, {
   StyleSheet,
   Image, 
@@ -7,8 +8,13 @@ import React, {
   Text,
   Component
 } from 'react-native';
+import HtmlRender from 'react-native-html-render';
 
-var styles = StyleSheet.create({
+//import des variables d'environement
+import Environment from '../environment.js';
+
+//declaration des styles
+let styles = StyleSheet.create({
   container: {
     marginTop: 65
   },
@@ -42,20 +48,18 @@ var styles = StyleSheet.create({
 });
 
 class Product extends Component {
-
   render() {
-    var product = this.props.product;
-    
+    //affichage du produit
+    let product = this.props.product;
     return (
       <View style={styles.container}>
-        <Image style={styles.image} 
-            source={{uri: 'http://isenclub.fr/foyer/api/files/product/'+product.image}} />
+        <Image style={styles.image} source={{uri: Environment.BASE_URL+'files/product/'+product.image}} />
         <View style={styles.heading}>
           <Text style={styles.price}>{product.price}€</Text>
           <Text style={styles.title}>{product.name}</Text>
           <View style={styles.separator}/>
         </View>
-        <Text style={styles.description}>{product.description}</Text>
+        <HtmlRender style={styles.description} value={product.description}/>
       </View>
     );
   }

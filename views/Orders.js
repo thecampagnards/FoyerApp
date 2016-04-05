@@ -8,15 +8,12 @@ import React, {
   Component,
   ListView,
   TouchableHighlight,
-  Image,
   ActivityIndicatorIOS
 } from 'react-native';
 import ControlledRefreshableListView from 'react-native-refreshable-listview';
-import SearchBar from 'react-native-search-bar';
-import HtmlRender from 'react-native-html-render';
 
-//import de Produit et des constantes d'env
-import Product from './Product';
+//import de Commande est des viariables d'environement
+import Order from './Order';
 import Environment from '../environment.js';
 
 //definition des styles
@@ -24,15 +21,13 @@ let styles = StyleSheet.create({
   listView: {
     flex: 1
   },
-  description: {
-    fontSize: 17,
-  },
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: 64
   },
   thumb: {
-    width: 80,
-    height: 80,
+    width: 20,
+    height: 20,
     marginRight: 10
   },
   textContainer: {
@@ -59,38 +54,34 @@ let styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
-  },
-  searchBar: {
-    marginTop: 64,
-    height: 44
   }
 });
 
-class Products extends Component {
+class Orders extends Component {
 
   constructor(props) {
     super(props);
-    //definition de la liste des produits et du boolean 
+    //definition de la liste des commandes et du boolean 
     //pour le spinner de chargement
     this.state = {
       isLoading: true,
-      products: new ListView.DataSource({
+      orders: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       })
     };
   }
 
-  reloadProducts() {
-    //this.fetchProducts();
+  reloadOrders() {
+    //this.fetchOrders();
   }
 
   componentDidMount() {
-    this.fetchProducts();
+    this.fetchOrders();
   }
 
-  fetchProducts() {
-    //récupération de la liste des produits
-    fetch(Environment.BASE_URL+'product/', {
+  fetchOrders() {
+    //récupération de la liste des commandes
+    fetch(Environment.BASE_URL+'command/', {
       headers: {
         Authorization: Environment.API_KEY
       }
@@ -98,33 +89,34 @@ class Products extends Component {
     .then((response) => response.json())
     .then((responseData) => {
       this.setState({
-        products: this.state.products.cloneWithRows(responseData),
+        orders: this.state.orders.cloneWithRows(responseData),
         isLoading: false
       });
     })
     .done();
   }
 
-  rowPressed(product) {
-    //si on clique sur la ligne d'un produit on est redirigé vers le produit
+  rowPressed(order) {
+    //redirection vers commande
     this.props.navigator.push({
-      title: "Produits",
-      component: Product,
-      passProps: {product: product}
+      title: "Commandes",
+      component: Order,
+      passProps: {order: order}
     });
   }
 
   renderRow(rowData) {
-    //affichage de la ligne de la liste
+    //affichage de la listes des commandes
     return (
-      <TouchableHighlight onPress={() => this.rowPressed(rowData)} underlayColor='#dddddd'>
+      <TouchableHighlight onPress={() => this.rowPressed(rowData)}
+          underlayColor='#dddddd'>
         <View>
           <View style={styles.rowContainer}>
-            <Image style={styles.thumb} source={{ uri: Environment.BASE_URL+'files/product/'+rowData.image }} />
+            <Text style={styles.thumb}>Icon</Text>
             <View  style={styles.textContainer}>
-              <Text style={styles.price}>{rowData.price}€</Text>
-              <Text style={styles.title} numberOfLines={1}>{rowData.name}</Text>
-              <HtmlRender style={styles.description} numberOfLines={1} value={rowData.description}/>
+              <Text style={styles.price}>{rowData.total}€</Text>
+              <Text style={styles.title} 
+                    numberOfLines={1}>{rowData.id_command}</Text>
             </View>
           </View>
           <View style={styles.separator}/>
@@ -134,23 +126,17 @@ class Products extends Component {
   }
 
   render() {
-    //si la requete à l'api est faite
+    //si le chargement est fait
     if(!this.state.isLoading){
       return (
         <View style={styles.container}>
-          <SearchBar
-            ref='searchBar'
-            placeholder='Rechercher'
-            onChangeText={this.reloadProducts()}
-            style={styles.searchBar}
-          />
           <ControlledRefreshableListView
-            dataSource={this.state.products}
+            dataSource={this.state.orders}
             renderRow={this.renderRow.bind(this)}
             style={styles.listView}
             isRefreshing={this.state.isLoading}
-            loadData={this.reloadProducts}
-            refreshDescription="Actualisation de la liste"
+            loadData={this.reloadOrders}
+            refreshDescription="Rafraîchir la liste"
           />
         </View>
       );
@@ -169,4 +155,4 @@ class Products extends Component {
   }
 }
 
-module.exports = Products;
+module.exports = Orders;
