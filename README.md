@@ -6,8 +6,9 @@ En suivant <a href="https://www.raywenderlich.com/99473/introducing-react-native
 
 ## Installation
 
-Lancer avec la commande ```npm start```` pour installer les paquets.
-Lancer avec la commande ```rnpm link```` pour linker les dépendances.
+Lancer avec la commande ```npm start``` pour installer les paquets.
+
+Lancer avec la commande ```rnpm link``` pour linker les dépendances.
 
 ## Utilisation
 
