@@ -81,7 +81,7 @@ class Orders extends Component {
 
   fetchOrders() {
     //récupération de la liste des commandes
-    fetch(Environment.BASE_URL+'command/', {
+    fetch(Environment.BASE_URL+'command/login/'+this.props.login, {
       headers: {
         Authorization: Environment.API_KEY
       }

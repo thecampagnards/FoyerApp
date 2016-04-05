@@ -85,7 +85,7 @@ class Home extends Component {
         <View style={styles.container}>
           <Image style={styles.image} source={{uri: this.state.banner}} />
           <Text style={styles.login}>
-            Bienvenue ksidor18,
+            Bienvenue {this.props.login},
           </Text>
           <Text style={styles.description}>
             Vous pouvez effectuer vos commandes au Foyer via cette application !

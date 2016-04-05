@@ -21,7 +21,8 @@ class FoyerApp extends Component {
     super(props);
     //selection de la tab par défaut
     this.state = {
-      selectedTab: 'home'
+      selectedTab: 'home',
+      login: 'ksidor18'
     };
   }
 
@@ -43,7 +44,8 @@ class FoyerApp extends Component {
             style={{flex:1}}
             initialRoute={{
               title : 'Accueil',
-              component: Home
+              component: Home,
+              passProps: { login: this.state.login }
             }}
           />
         </Icon.TabBarItemIOS>
@@ -79,7 +81,8 @@ class FoyerApp extends Component {
             style={{flex:1}}
             initialRoute={{
               title : 'Panier',
-              component: Cart
+              component: Cart,
+              passProps: { login: this.state.login }
             }}
           />
         </Icon.TabBarItemIOS>
@@ -97,7 +100,8 @@ class FoyerApp extends Component {
             style={{flex:1}}
             initialRoute={{
               title : 'Commandes',
-              component: Orders
+              component: Orders,
+              passProps: { login: this.state.login }
             }}
           />
         </Icon.TabBarItemIOS>

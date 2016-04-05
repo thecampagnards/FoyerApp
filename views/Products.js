@@ -82,7 +82,7 @@ class Products extends Component {
   }
 
   reloadProducts() {
-    //this.fetchProducts();
+
   }
 
   componentDidMount() {
@@ -135,6 +135,11 @@ class Products extends Component {
   }
 
   render() {
+
+    //tri par champ rechercher
+    console.log(this.state.search);
+    let products = this.state.products;
+
     //si la requete à l'api est faite
     if(!this.state.isLoading){
       return (
@@ -142,7 +147,7 @@ class Products extends Component {
           <SearchBar
             ref="searchBar"
             placeholder="Rechercher"
-            onChangeText={this.reloadProducts()}
+            onChangeText={(text) => this.setState({search: text})}
             onSearchButtonPress={() => this.refs.searchBar.blur()}
             onFocus={() => this.setState({showsCancelButton: true})}
             showsCancelButton={this.state.showsCancelButton}
@@ -150,7 +155,7 @@ class Products extends Component {
             style={styles.searchBar}
           />
           <ControlledRefreshableListView
-            dataSource={this.state.products}
+            dataSource={products}
             renderRow={this.renderRow.bind(this)}
             style={styles.listView}
             isRefreshing={this.state.isLoading}

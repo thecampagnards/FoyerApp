@@ -21,7 +21,7 @@ class Cart extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Panier</Text>
+        <Text>Panier - {this.props.login}</Text>
       </View>
     );
   }
