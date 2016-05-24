@@ -75,6 +75,7 @@ class Products extends Component {
     this.state = {
       isLoading: true,
       showsCancelButton: false,
+      search: null,
       products: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2
       })
